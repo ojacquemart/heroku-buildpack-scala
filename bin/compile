@@ -46,6 +46,7 @@ cd $BUILD_DIR
 # unpack cache
 CACHED_DIRS="$SBT_USER_HOME/.ivy2 $SBT_BINDIR"
 for DIR in $CACHED_DIRS; do
+  echo $DIR
   rm -rf $DIR
   if [ -d $CACHE_DIR/$DIR ]; then
     mkdir -p $DIR
@@ -137,4 +138,13 @@ if is_play $BUILD_DIR && [ -d $SBT_USER_HOME/.ivy2 ] ; then
   echo "-----> Dropping ivy cache from the slug" 
   rm -rf $SBT_USER_HOME/.ivy2 
 fi
+
+mkdir -p $CACHE_DIR
+for DIR in $CACHED_DIRS ; do
+  rm -rf $CACHE_DIR/$DIR
+  mkdir -p $CACHE_DIR/$DIR
+  cp -r $DIR/.  $CACHE_DIR/$DIR
+echo "-----> Dropping ivy cache from the slug: $DIR"
+rm -rf $SBT_USER_HOME/.ivy2
+done
 
